@@ -1,0 +1,740 @@
+
+# 2025-11-22 17:06:23.876344
++Code the following app
++```
++"BaseGuard AI" (Full End-to-End Product Prompt)
++
++Act as a Senior Blockchain Security Architect and Agentic AI Engineer.
++Your task is to design a full working product for a Telegram Mini-App called:
++
++🛡️ BaseGuard AI — Smart Contract & Transaction Security Analyzer
++
++Users paste a Base network smart contract address or a transaction hash, and the Agent (powered by OpenxAI Xnodes) fetches, analyzes, and explains what it does in simple English, highlighting risks, backdoors, honeypots, or hidden logic.
++
++The Agent must operate through its own ERC-6551 Token-Bound Account (TBA) to log verified analyses on-chain, proving decentralized trust.
++
++🔥 Your Response MUST Include All Sections Below (Do NOT skip anything):
++1. Executive Summary
++
++What BaseGuard AI does.
++
++Why it solves a critical user pain point.
++
++Why decentralized AI via Xnodes is superior to centralized LLM security tools.
++
++2. Full User Story (Step-by-Step Flow)
++
++Describe the entire UX journey:
++
++User opens BaseGuard AI in Telegram.
++
++User pastes a contract address or transaction hash.
++
++Backend fetches on-chain bytecode / ABI / storage / TX data.
++
++OpenxAI Xnode analyzes:
++
++Functions
++
++Hidden permissions
++
++Upgrade patterns
++
++Dangerous opcodes
++
++External call risks
++
++tx.value, attacker vector, etc.
++
++Agent produces plain-English explanation.
++
++If high-risk → show red warning (“⚠️ This contract can drain your wallet”).
++
++If safe → explain what it does (“Standard swap; no malicious opcodes found”).
++
++Agent optionally publishes a signed on-chain report from its TBA wallet.
++
++User can share report link as a verifiable security certificate.
++
++3. Agent Architecture (Detailed)
++
++Breakdown of every component:
++
++A. ERC-721 Agent NFT
++
++Represents the BaseGuard AI agent.
++
++Gives identity to the analyzer.
++
++B. ERC-6551 Token-Bound Account
++
++Wallet owned by the Agent NFT.
++
++Used to sign:
++
++Analysis reports
++
++Risk attestations
++
++Verification proofs
++
++C. Security Pipeline
++
++Bytecode fetch
++
++Static analysis
++
++ABI decomposition
++
++Simulation (eth_call)
++
++Opcode detection (SELFDESTRUCT, DELEGATECALL, CALLCODE)
++
++Permission map
++
++Logical risk scoring
++
++D. OpenxAI Xnode Workflows
++
++Define every step Xnode must perform:
++
++Data ingestion
++
++Decompile bytecode
++
++Pattern matching for known exploits
++
++Generate summary in natural language
++
++Emit structured JSON risk report
++
++Sign output
++
++E. Backend Orchestrator
++
++Fetch on-chain data
++
++Route tasks to Xnode
++
++Validate Xnode signatures
++
++Store reports
++
++Interact with TBA wallet for attestations
++
++4. Security Analysis Engine
++
++Describe the exact logic the AI must perform:
++
++Contract Analysis
++
++Detect upgrade proxy patterns
++
++Identify owner permissions
++
++Analyze function visibility
++
++Identify unrestricted transferFrom
++
++Check if contract can drain tokens
++
++Look for infinite approvals
++
++Check for malicious mint logic
++
++Analyze constructor edge cases
++
++Identify honeypot conditions
++
++Check LP lock status (optional)
++
++Transaction Analysis
++
++Simulate transaction using eth_call
++
++Decode calldata
++
++Identify fund flow
++
++Show what tokens move where
++
++Detect rug pull or drain pattern
++
++Explain all outputs in plain English
++
++5. Output Specification
++
++Agent must output two forms:
++
++A. Human-readable summary
++
++Example style:
++
++“⚠️ High Risk: This contract contains a backdoor function called withdrawAll() allowing the owner to drain all tokens.”
++
++“✅ Safe: This is a standard Uniswap swap. No malicious behavior detected.”
++
++B. Machine-readable JSON report
++
++Must include:
++
++{
++  "contract": "0x...",
++  "riskScore": 0-100,
++  "riskLevel": "low|medium|high|critical",
++  "flags": ["delegatecall", "upgradeable", "ownerPrivileges"],
++  "functions": {...},
++  "simulation": {...},
++  "recommendation": "avoid / safe with caution / safe",
++  "signature": "0xXnodeSignature"
++}
++
++6. Telegram Mini App UX Flow
++
++Provide screen-by-screen UI description:
++
++Home Screen:
++“Paste a Contract Address or TX Hash to analyze”
++
++Analyzing Screen:
++“Fetching code… Running static analysis… Simulating behavior…”
++
++Result Screen:
++
++Threat summary
++
++Flags
++
++Recommendation
++
++Button: “View On-Chain Verified Report”
++
++Verified Report View:
++Shows transaction hash of the TBA-signed attestation.
++
++History Screen:
++Users can see all past analyses.
++
++Include examples of friendly text responses and warnings.
++
++7. On-Chain Interaction Flow
++
++Explain every transaction performed by BaseGuard TBA:
++
++Agent computes risk report (off-chain).
++
++Agent signs structured data with its TBA wallet.
++
++Relayer submits signed attestations to Base.
++
++On-chain record is stored as immutable proof of analysis.
++
++This proves the analysis was produced by a decentralized agent and not tampered with.
++
++8. Smart Contracts Required
++
++(include function names)
++
++A. BaseGuardAgentNFT.sol
++
++mintAgent()
++
++getAgentWallet()
++
++Metadata
++
++B. BaseGuardAttestation.sol
++
++storeReport(agentWallet, hash, riskLevel)
++
++verify(reportHash)
++
++C. TBA Registry / Factory
++
++(standard ERC-6551 pattern)
++
++9. Backend Architecture (Node.js/TS)
++
++List all services:
++
++router-service (Telegram)
++
++bytecode-service (fetch on-chain code)
++
++analysis-service (calls Xnode)
++
++simulation-service
++
++relayer-service
++
++attestation-service
++
++database (Postgres)
++
++cache (Redis)
++
++Include API routes:
++
++/analyze/address
++
++/analyze/tx
++
++/report/store
++
++/report/verify
++
++/history
++
++10. Risk & Safety Requirements
++
++Xnode must sign responses.
++
++All reports require expiry timestamp.
++
++Nonces to prevent replay.
++
++Gas buffer: minimum $2 in agent wallet.
++
++Max 20 analysis reports/day.
++
++Verified contracts stored with SHA-256 hash.
++
++User must explicitly approve any on-chain attestation.
++
++11. “Winning Factor”
++
++Emphasize the most important innovation:
++
++The agent produces verifiable, tamper-proof security reports using its own on-chain identity (ERC-6551).
++
++Proof of authenticity
++
++Impossible for centralized AI to fake
++
++Demonstrates full autonomous AI behavior on Base
++
++12. 5-Min Demo Script
++
++Show exactly how to present:
++
++Paste suspicious contract
++
++AI runs analysis
++
++Shows “⚠️ This contract can drain your wallet”
++
++AI signs report from ERC-6551 wallet
++
++On-chain attestation appears in Base explorer
++
++Show shareable report link
++
++Done — judges immediately understand value
++
++13. Build Plan (2 Week)
++
++Include daily goals:
++
++Week 1
++
++Smart contracts
++
++Telegram UI
++
++Backend skeleton
++
++Xnode integration
++
++Bytecode fetcher
++
++Week 2
++
++Risk engine
++
++Report signer
++
++On-chain attestations
++
++UX polish
++
++Test cases
++
++Final deploy to Base testnet
++
++Include acceptance tests for each milestone.
++```
++
++Generate an app logo and update the app metadata title and description.
+
+# 2025-11-22 17:06:23.877620
++Code the following app
++```
++"BaseGuard AI" (Full End-to-End Product Prompt)
++
++Act as a Senior Blockchain Security Architect and Agentic AI Engineer.
++Your task is to design a full working product for a Telegram Mini-App called:
++
++🛡️ BaseGuard AI — Smart Contract & Transaction Security Analyzer
++
++Users paste a Base network smart contract address or a transaction hash, and the Agent (powered by OpenxAI Xnodes) fetches, analyzes, and explains what it does in simple English, highlighting risks, backdoors, honeypots, or hidden logic.
++
++The Agent must operate through its own ERC-6551 Token-Bound Account (TBA) to log verified analyses on-chain, proving decentralized trust.
++
++🔥 Your Response MUST Include All Sections Below (Do NOT skip anything):
++1. Executive Summary
++
++What BaseGuard AI does.
++
++Why it solves a critical user pain point.
++
++Why decentralized AI via Xnodes is superior to centralized LLM security tools.
++
++2. Full User Story (Step-by-Step Flow)
++
++Describe the entire UX journey:
++
++User opens BaseGuard AI in Telegram.
++
++User pastes a contract address or transaction hash.
++
++Backend fetches on-chain bytecode / ABI / storage / TX data.
++
++OpenxAI Xnode analyzes:
++
++Functions
++
++Hidden permissions
++
++Upgrade patterns
++
++Dangerous opcodes
++
++External call risks
++
++tx.value, attacker vector, etc.
++
++Agent produces plain-English explanation.
++
++If high-risk → show red warning (“⚠️ This contract can drain your wallet”).
++
++If safe → explain what it does (“Standard swap; no malicious opcodes found”).
++
++Agent optionally publishes a signed on-chain report from its TBA wallet.
++
++User can share report link as a verifiable security certificate.
++
++3. Agent Architecture (Detailed)
++
++Breakdown of every component:
++
++A. ERC-721 Agent NFT
++
++Represents the BaseGuard AI agent.
++
++Gives identity to the analyzer.
++
++B. ERC-6551 Token-Bound Account
++
++Wallet owned by the Agent NFT.
++
++Used to sign:
++
++Analysis reports
++
++Risk attestations
++
++Verification proofs
++
++C. Security Pipeline
++
++Bytecode fetch
++
++Static analysis
++
++ABI decomposition
++
++Simulation (eth_call)
++
++Opcode detection (SELFDESTRUCT, DELEGATECALL, CALLCODE)
++
++Permission map
++
++Logical risk scoring
++
++D. OpenxAI Xnode Workflows
++
++Define every step Xnode must perform:
++
++Data ingestion
++
++Decompile bytecode
++
++Pattern matching for known exploits
++
++Generate summary in natural language
++
++Emit structured JSON risk report
++
++Sign output
++
++E. Backend Orchestrator
++
++Fetch on-chain data
++
++Route tasks to Xnode
++
++Validate Xnode signatures
++
++Store reports
++
++Interact with TBA wallet for attestations
++
++4. Security Analysis Engine
++
++Describe the exact logic the AI must perform:
++
++Contract Analysis
++
++Detect upgrade proxy patterns
++
++Identify owner permissions
++
++Analyze function visibility
++
++Identify unrestricted transferFrom
++
++Check if contract can drain tokens
++
++Look for infinite approvals
++
++Check for malicious mint logic
++
++Analyze constructor edge cases
++
++Identify honeypot conditions
++
++Check LP lock status (optional)
++
++Transaction Analysis
++
++Simulate transaction using eth_call
++
++Decode calldata
++
++Identify fund flow
++
++Show what tokens move where
++
++Detect rug pull or drain pattern
++
++Explain all outputs in plain English
++
++5. Output Specification
++
++Agent must output two forms:
++
++A. Human-readable summary
++
++Example style:
++
++“⚠️ High Risk: This contract contains a backdoor function called withdrawAll() allowing the owner to drain all tokens.”
++
++“✅ Safe: This is a standard Uniswap swap. No malicious behavior detected.”
++
++B. Machine-readable JSON report
++
++Must include:
++
++{
++  "contract": "0x...",
++  "riskScore": 0-100,
++  "riskLevel": "low|medium|high|critical",
++  "flags": ["delegatecall", "upgradeable", "ownerPrivileges"],
++  "functions": {...},
++  "simulation": {...},
++  "recommendation": "avoid / safe with caution / safe",
++  "signature": "0xXnodeSignature"
++}
++
++6. Telegram Mini App UX Flow
++
++Provide screen-by-screen UI description:
++
++Home Screen:
++“Paste a Contract Address or TX Hash to analyze”
++
++Analyzing Screen:
++“Fetching code… Running static analysis… Simulating behavior…”
++
++Result Screen:
++
++Threat summary
++
++Flags
++
++Recommendation
++
++Button: “View On-Chain Verified Report”
++
++Verified Report View:
++Shows transaction hash of the TBA-signed attestation.
++
++History Screen:
++Users can see all past analyses.
++
++Include examples of friendly text responses and warnings.
++
++7. On-Chain Interaction Flow
++
++Explain every transaction performed by BaseGuard TBA:
++
++Agent computes risk report (off-chain).
++
++Agent signs structured data with its TBA wallet.
++
++Relayer submits signed attestations to Base.
++
++On-chain record is stored as immutable proof of analysis.
++
++This proves the analysis was produced by a decentralized agent and not tampered with.
++
++8. Smart Contracts Required
++
++(include function names)
++
++A. BaseGuardAgentNFT.sol
++
++mintAgent()
++
++getAgentWallet()
++
++Metadata
++
++B. BaseGuardAttestation.sol
++
++storeReport(agentWallet, hash, riskLevel)
++
++verify(reportHash)
++
++C. TBA Registry / Factory
++
++(standard ERC-6551 pattern)
++
++9. Backend Architecture (Node.js/TS)
++
++List all services:
++
++router-service (Telegram)
++
++bytecode-service (fetch on-chain code)
++
++analysis-service (calls Xnode)
++
++simulation-service
++
++relayer-service
++
++attestation-service
++
++database (Postgres)
++
++cache (Redis)
++
++Include API routes:
++
++/analyze/address
++
++/analyze/tx
++
++/report/store
++
++/report/verify
++
++/history
++
++10. Risk & Safety Requirements
++
++Xnode must sign responses.
++
++All reports require expiry timestamp.
++
++Nonces to prevent replay.
++
++Gas buffer: minimum $2 in agent wallet.
++
++Max 20 analysis reports/day.
++
++Verified contracts stored with SHA-256 hash.
++
++User must explicitly approve any on-chain attestation.
++
++11. “Winning Factor”
++
++Emphasize the most important innovation:
++
++The agent produces verifiable, tamper-proof security reports using its own on-chain identity (ERC-6551).
++
++Proof of authenticity
++
++Impossible for centralized AI to fake
++
++Demonstrates full autonomous AI behavior on Base
++
++12. 5-Min Demo Script
++
++Show exactly how to present:
++
++Paste suspicious contract
++
++AI runs analysis
++
++Shows “⚠️ This contract can drain your wallet”
++
++AI signs report from ERC-6551 wallet
++
++On-chain attestation appears in Base explorer
++
++Show shareable report link
++
++Done — judges immediately understand value
++
++13. Build Plan (2 Week)
++
++Include daily goals:
++
++Week 1
++
++Smart contracts
++
++Telegram UI
++
++Backend skeleton
++
++Xnode integration
++
++Bytecode fetcher
++
++Week 2
++
++Risk engine
++
++Report signer
++
++On-chain attestations
++
++UX polish
++
++Test cases
++
++Final deploy to Base testnet
++
++Include acceptance tests for each milestone.
++```
++
++Generate an app logo and update the app metadata title and description.
+
+# 2025-11-22 17:07:29.378990
++apply changes
+
+# 2025-11-22 17:07:29.380187
++apply changes
